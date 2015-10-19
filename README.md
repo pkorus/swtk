@@ -1,21 +1,21 @@
 # scientific writing toolkit
 
-Scientific writing toolkit (SWTK) is a LaTeX manuscript analysis tool that facilitates clear writing (in English). 
+Scientific writing toolkit (SWTK) is a LaTeX manuscript analysis tool that facilitates clear writing (in English).
 
 
 @ 2015 [Paweł Korus](https://github.com/pkorus)
 
 ## Introduction
 
-Scientific writing toolkit (SWTK) is a Python-based scientific manuscript analysis tool that facilitates clear writing. It detects common problems with English writing like overuse of weak verbs, or excessive use of adverbs, and passive voice, etc. 
+Scientific writing toolkit (SWTK) is a Python-based scientific manuscript analysis tool that facilitates clear writing. It detects common problems with English writing like overuse of weak verbs, or excessive use of adverbs, and passive voice, etc.
 
 SWTK generates a self-contained interactive HTML report with appropriate highlights in the text. An example report can be downloaded [here](https://github.com/swtk/examples/report.html). This report uses the default template; you can customize the CSS template to your liking. 
 
 I designed the toolkit with LaTeX manuscripts in mind; you can expect equations and citations alike to get out of your way while proofreading. Since I did not intended to implement a full fledged TeX parser; there are some [basic guidelines](#preparing-your-manuscript) that you should follow for best results. You can easily integrate SWTK in your document [compilation workflow](#workflow-integration). If you wish (or if the included LaTeX parser does not work for you) you can use either Markdown or plaintext documents.
 
-Text analysis relies on the [Natural Language Processing Toolkit](http://www.nltk.org/). A full list of currently available analysis modules is featured [below](#available-analysis-tools). If you do not see what you need - let me know or just add it yourself - the toolkit can be easily extended with [plug-ins](#plug-in-development). For more information on the principles of good writing, you can refer to the classic book [The Elements of Style](http://www.gutenberg.org/ebooks/37134), or one of the available MOOCs out there (see examples below). 
+Text analysis relies on the [Natural Language Processing Toolkit](http://www.nltk.org/). A full list of currently available analysis modules is featured [below](#available-analysis-tools). If you do not see what you need - let me know or just add it yourself - the toolkit can be easily extended with [plug-ins](#plug-in-development). For more information on the principles of good writing, you can refer to the classic book [The Elements of Style](http://www.gutenberg.org/ebooks/37134), or one of the available MOOCs out there (see examples below).
 
-This project was inspired by two online apps: [Hemingway](http://www.hemingwayapp.com/) and [Expresso](http://www.expresso-app.org). Both are online editors, intended for general-purpose writing, and as such did not suit my LaTeX writing workflow well. 
+This project was inspired by two online apps: [Hemingway](http://www.hemingwayapp.com/) and [Expresso](http://www.expresso-app.org). Both are online editors, intended for general-purpose writing, and as such did not suit my LaTeX writing workflow well.
 
 **Learn More:**
 
@@ -54,21 +54,17 @@ Install the [natural language processing toolkit](http://www.nltk.org/install.ht
 
 Install the required [nltk packages](http://www.nltk.org/data.html):
 
-- `punkt` - Punkt Tokenizer Models
-- `wordnet` - WordNet corpus
-- `maxent_treebank_pos_tagger` - part of speech (POS) tagger
-
-Open a Python interpreter:
-
-```python
->>> import nltk
->>> nltk.download()
-```
-Then choose the above packages from the list. If you prefer to download everything:
+- Punkt Tokenizer Models
+- Maximal Entropy Treebank POS tagger
+- Averaged Perceptron Tagger (depending on the version of NLTK)
 
 ``` bash
-> python -m nltk.downloader all
+> python -m nltk.downloader punkt
+> python -m nltk.downloader maxent_treebank_pos_tagger
+> python -m nltk.downloader averaged_perceptron_tagger
 ```
+
+SWTK uses the default POS tagger from NLTK. This guarantees that you are using the recommended tagging engine, but might change accross different versions of NLTK. Note that the taggers might differ not only in the classification accuracy, but also in processing time, e.g., the Maximal Entropy Treebank POS tagger is significantly faster than the Averaged Perceptron Tagger. If the default tagger does not work for you, consider switching to a [different one](http://www.nltk.org/book/ch05.html).
 
 ## Usage
 
@@ -91,7 +87,7 @@ Command Line Option | Description
 
 ### Customization
 
-The appearance of the report and the user interface is defined by a CSS stylesheet (`./data/default.css`). You can customize it directly, or supply a different one via command line options (`-s`). You can also hack your way into the report behavior (`./data/default.js` or `-j`). 
+The appearance of the report and the user interface is defined by a CSS stylesheet (`./data/default.css`). You can customize it directly, or supply a different one via command line options (`-s`). You can also hack your way into the report behavior (`./data/default.js` or `-j`).
 
 ### Workflow Integration
 
@@ -122,7 +118,7 @@ Possibly important ignored items include:
 
 - other environments (e.g., `center`, `algorithm`)
 - document inclusion commands (e.g., `input` or `include`)
-- clustered commands; the parser treats consecutive non-empty lines as a single block and parses only the first command. 
+- clustered commands; the parser treats consecutive non-empty lines as a single block and parses only the first command.
 
 E.g., from the following snippet:
 
@@ -139,7 +135,7 @@ only the first command (`section`) will be parsed. Make sure to separate importa
 \section{}
 ```
 
-**Math support** is experimental. If enabled, the HTML will reference to MathJax via CDN, so Internet connectivity will be required to view the math in the reports. 
+**Math support** is experimental. If enabled, the HTML will reference to MathJax via CDN, so Internet connectivity will be required to view the math in the reports.
 
 Inline equations should be enclosed with `$` (single dollar sign). Separate equations should be enclosed with `\begin{equation}` or `begin{equation*}`. Do not expect more complex equations to render properly (e.g., when using the `\begin{cases}` environment) - unless a future update of MathJax fixes this.
 
@@ -154,11 +150,11 @@ The toolkit implements a rudimentary Markdown parser:
 - inline code will be replaced with `[code]`;
 - links will be replaced with link name;
 
-Other content - e.g., images, tables, code blocks - is currently not supported, and should not be present in the analyzed document. 
+Other content - e.g., images, tables, code blocks - is currently not supported, and should not be present in the analyzed document.
 
 ### Plaintext
 
-Plaintext is the simplest option available. One-line paragraphs without a period will be treated as section titles (only top level). Block of lines starting with `- ` will be treated as an enumeration. Everything else will be treated as raw text. 
+Plaintext is the simplest option available. One-line paragraphs without a period will be treated as section titles (only top level). Block of lines starting with `- ` will be treated as an enumeration. Everything else will be treated as raw text.
 
 ### Other Formats
 
@@ -179,7 +175,7 @@ Negative statements            | -      |
 Frequent bigrams               | stable | frequently used pairs of words
 Frequent trigrams              | stable | frequently used triples of words
 Frequent abbreviations         | stable | frequently used abbreviations
-Overuse of rare words          | prototype | 
+Overuse of rare words          | prototype |
 Verbs used as weird nouns      | -      |
 Sentence difficulty estimation | -      |
 
@@ -195,7 +191,7 @@ The toolkit provides a simple plug-in architecture. All you need to do is to der
 - `process_token(self, token)`
 - `process_sentence(self, sentence)`
 
-These methods give you access to the paper, token, and sentence objects, respectively. Obviously, you can access the sentences and tokens from the `process_text` method - the remaining two are just for convenience. Once you're done with processing individual tokens/sentences, you need to finish your work in the `finalize(self, paper)` method - called in the end by the plugin manager. It is responsible for generating the final report of your analysis (should be appended to the `paper.reports` list). 
+These methods give you access to the paper, token, and sentence objects, respectively. Obviously, you can access the sentences and tokens from the `process_text` method - the remaining two are just for convenience. Once you're done with processing individual tokens/sentences, you need to finish your work in the `finalize(self, paper)` method - called in the end by the plugin manager. It is responsible for generating the final report of your analysis (should be appended to the `paper.reports` list).
 
 An example report for the POS tagger plugin is shown below:
 
@@ -204,9 +200,9 @@ An example report for the POS tagger plugin is shown below:
 The final report is represented by the `Report` class which contains the following attributes:
 
 Attribute   | Description
-------------|------------------------ 
+------------|------------------------
 `label`       | human readable name for your report.
-`details`     | the main content of your report (HTML text): use a `list` to have its items automatically wrapped in an `<ul>` tag (unordered list); use a `string` to directly specify the HTML of your report. 
+`details`     | the main content of your report (HTML text): use a `list` to have its items automatically wrapped in an `<ul>` tag (unordered list); use a `string` to directly specify the HTML of your report.
 `help`        | a short note about what your plugin does (optional); string with HTML content.
 `summary`     | a short information that summarizes the main results of your plugin; use a string; make it as compact as possible.
 `css_classes` | list of all css classes that your plugin has used; this list is used for two purposes: to generate a "toggle all" button (for your plugin's label), and to generate css classes in the HTML code; the list can contain either a dedicated `CSS` object (basically a name and color specification) or a string (in this case, the toolkit will generate the highlight colors automatically). The first option gives you the flexibility to change highlight colors dynamically (see the bigrams plugin for an example).
@@ -217,7 +213,7 @@ In order to highlight selected words or sentences, just append the css class nam
 
 ### Generating Individual Highlight Toggle Buttons
 
-By default, the toolkit will provide a toggle button for turning on/off the highlights made by individual plugins (once the `css_classes` attribute is set in the report). Toggling individual highlights is also supported, but requires explicit instructions. When generating the string list with report details, use `Plugin.toggle_button_generator` to wrap the list items in the necessary HTML code. The method expects a tuple with the item text, and a corresponding CSS class that should be toggled. 
+By default, the toolkit will provide a toggle button for turning on/off the highlights made by individual plugins (once the `css_classes` attribute is set in the report). Toggling individual highlights is also supported, but requires explicit instructions. When generating the string list with report details, use `Plugin.toggle_button_generator` to wrap the list items in the necessary HTML code. The method expects a tuple with the item text, and a corresponding CSS class that should be toggled.
 
 A brief example:
 
