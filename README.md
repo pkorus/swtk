@@ -1,13 +1,13 @@
 # scientific writing toolkit
 
-Scientific writing toolkit (SWTK) is a LaTeX manuscript analysis tool that facilitates clear writing (in English).
+Clarity-related text stats for scientific manuscripts (LaTeX).
 
 
-@ 2015 [Paweł Korus](https://github.com/pkorus)
+© 2015 [Paweł Korus](https://github.com/pkorus)
 
 ## Introduction
 
-Scientific writing toolkit (SWTK) is a Python-based scientific manuscript analysis tool that facilitates clear writing. It detects common problems with English writing like overuse of weak verbs, or excessive use of adverbs, and passive voice, etc.
+Scientific writing toolkit (SWTK) is a Python-based scientific manuscript analysis tool that facilitates clear writing. It computes numerous clarity-related statistics and detects common problems with English writing like overuse of weak verbs, or excessive use of adverbs, and passive voice, etc.
 
 SWTK generates a self-contained interactive HTML report with appropriate highlights in the text. An example report can be downloaded [here](https://github.com/swtk/examples/report.html). This report uses the default template; you can customize the CSS template to your liking. 
 
@@ -229,3 +229,13 @@ report.css_classes = css_mapping.values()
 paper.reports.append(report)
 
 ```
+
+### Interaction with Other Plugins
+
+It is possible to use the results provided by other plugins in your own analysis. Some plugins (e.g., the text statistics plugin, or the POS tagger) will provide paper-wide stats that you can use (`paper.stats`). You can also see the results by examining the reports for individual sentences, or tokens (words) - e.g., the passive voice analysis module will attach a `passiveVerb` css class to the `reports` field of the token, and `passiveVoice` class for the sentence. Other modules might change other attributes, like the `pos_tag`. Take a look at individual modules to see what they provide.
+
+In order to make sure that the data you need is available, configure your plug-in to run later than its dependencies. The `run_priority` attribute determines the execution order (lower numbers are started earlier). The run priority applies within three run scopes:
+
+- text processors are executed first,
+- sentence processors are executed second,
+- token processors are executed last.
