@@ -31,8 +31,12 @@ class AbbreviationsProcessor(Plugin):
             for token in tokens:
                 token.reports.append('_'+css_mapping[k].name)
         # Generate a detailed report and a summary
-        detailedReport = [('{} : {}'.format(k,v), css_mapping[k].name) for (k,v) in sortedItems]
-        summary = 'Top 3 : {}'.format(', '.join([k for (k,v) in sortedItems[:3]]))
+        if len(sortedItems) > 0:
+            detailedReport = [('{} : {}'.format(k,v), css_mapping[k].name) for (k,v) in sortedItems]
+            summary = 'Top {} : {}'.format(min(3, len(sortedItems)), ', '.join([k for (k,v) in sortedItems[:3]]))
+        else:
+            detailedReport = None
+            summary = 'No abbreviations found'
         report = Report('Abbreviations', Plugin.toggle_button_generator(detailedReport), self.help, summary)
         report.css_classes = css_mapping.values()
         paper.reports.append(report)

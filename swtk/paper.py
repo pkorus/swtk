@@ -43,6 +43,7 @@ def read_data(filename):
 
 
 def parse_tex_command(line, strip_inside=True):
+    logging.info('Parsing command {:.50}'.format(line))
     braces = []
     content = []
     isCommand = False
@@ -51,7 +52,8 @@ def parse_tex_command(line, strip_inside=True):
         if c == '{':
             braces.append('{')
             isCommand = False
-            continue
+            if strip_inside or len(braces) == 1:
+                continue
         elif c == '}':
             b = braces.pop()
             if not b == '{':
@@ -59,16 +61,18 @@ def parse_tex_command(line, strip_inside=True):
             if len(braces) == 0:
                 break
             isCommand = False
-            continue
+            if strip_inside or len(braces) == 0:
+                continue
         elif c == ' ':
             isCommand = False
         elif c == '\\':
             isCommand = True
-            continue
+            if strip_inside or len(braces) == 0:
+                continue
 
         if (len(braces) == 1 or (not strip_inside and len(braces) > 1)) and not (strip_inside and isCommand):
             if c == '~': c = ' '
-            if not (c == ' ' and content[-1] == ' '):
+            if len(content) == 0 or not (c == ' ' and content[-1] == ' '):
                 content.append(c)
 
     while len(content) > 0 and (content[-1] == ' ' or content[-1] == ','): content.pop()
@@ -87,6 +91,8 @@ def parse_latex_environment(body):
     :return: content of the first identified environment
     """
     # Find the name of the environment
+    logging.info('Parsing environment {:.50}'.format(body))
+
     name = re.findall('begin{([a-z\\*]+)}', body)
 
     if len(name) == 0:
@@ -518,6 +524,13 @@ class LatexPaper(Paper):
                         result = parse_tex_command(body)
                         if result and len(result) > 0:
                             self.content.append(Section(result, 'h3'))
+
+                    elif body.startswith(r'\abstract'):
+                        result = parse_tex_command(body, False)
+                        if result and len(result) > 0:
+                            self.content.append(Paragraph(result, 'abstract', self.syntax_replacements))
+                        else:
+                            logging.error("Could not parse: {:.50}".format(body))
 
                     elif body.startswith(r'\begin{abstract}'):
                         self.content.append(Paragraph(parse_latex_environment(body), 'abstract', self.syntax_replacements))

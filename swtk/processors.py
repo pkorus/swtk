@@ -128,11 +128,12 @@ class Plugin:
         :param items: a list of tuples ('report item text', 'CSS class that should be toggled')
         :return: list of strings with HTML code of the buttons
         """
-        output = []
-        for (i, c) in items:
-            if c is None:
-                output.append(i)
-            else:
-                output.append('<div class="toggleButton" data-css="{}">{}</div>'.format(c, i))
-        return output
+        if items is not None:
+            output = []
+            for (i, c) in items:
+                if c is None:
+                    output.append(i)
+                else:
+                    output.append('<div class="toggleButton" data-css="{}">{}</div>'.format(c, i))
+            return output
 

@@ -50,13 +50,14 @@ class BigramProcessor(Plugin):
                             s.tokens[item_id+1].reports.append(current_class)
                     item_id += 1
 
-        # Generate summary
+        # Generate report
         if len(distribution) > 0:
+            details = [('{} {} : {}'.format(k[0], k[1], v), css_mapping['{} {}'.format(*k)].name) for (k,v) in distribution]
             summary = '{} popular bigrams: {} {}, ...'.format(len(distribution), distribution[0][0][0], distribution[0][0][1])
         else:
+            details = None
             summary = 'No frequent bigrams'
-        # Generate full report
-        details = [('{} {} : {}'.format(k[0], k[1], v), css_mapping['{} {}'.format(*k)].name) for (k,v) in distribution]
+            
         report = Report('Bigrams', Plugin.toggle_button_generator(details), self.help, summary)
         report.css_classes = css_mapping.values()
         paper.reports.append(report)

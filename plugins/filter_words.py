@@ -32,7 +32,7 @@ class FilterWordsProcessor(Plugin):
             self.__process_token(token)
         # Match phrases in the dictionary
         for pattern in self.dictionary['phrases'].keys():
-            if sentence.__str__().find(pattern) >= 0:
+            if sentence.__str__().lower().find(pattern) >= 0:
                 # Find specific tokens that constitute the phrase
                 self.found_phrases.add(pattern)
                 indices = find_sequence([x.word.lower() for x in sentence.tokens], nltk.word_tokenize(pattern))
