@@ -9,7 +9,9 @@ Clarity-related text stats for scientific manuscripts (LaTeX).
 
 Scientific writing toolkit (SWTK) is a Python-based scientific manuscript analysis tool that facilitates clear writing. It computes numerous clarity-related statistics and detects common problems with English writing like overuse of weak verbs, or excessive use of adverbs, and passive voice, etc.
 
-SWTK generates a self-contained interactive HTML report with appropriate highlights in the text. An example report can be downloaded [here](https://github.com/swtk/examples/report.html). This report uses the default template; you can customize the CSS template to your liking. 
+SWTK generates a self-contained interactive HTML report with appropriate highlights in the text. An example report can be downloaded [here](https://raw.githubusercontent.com/pkorus/swtk/master/samples/introduction.html). This report uses the default template; you can customize the CSS template to your liking. 
+
+![Example report](./images/report.png)
 
 I designed the toolkit with LaTeX manuscripts in mind; you can expect equations and citations alike to get out of your way while proofreading. Since I did not intended to implement a full fledged TeX parser; there are some [basic guidelines](#preparing-your-manuscript) that you should follow for best results. You can easily integrate SWTK in your document [compilation workflow](#workflow-integration). If you wish (or if the included LaTeX parser does not work for you) you can use either Markdown or plaintext documents.
 
@@ -176,8 +178,9 @@ Frequent bigrams               | stable | frequently used pairs of words
 Frequent trigrams              | stable | frequently used triples of words
 Frequent abbreviations         | stable | frequently used abbreviations
 Overuse of rare words          | prototype |
-Verbs used as weird nouns      | -      |
+Verbs used as nouns            | -      |
 Sentence difficulty estimation | -      |
+Unreferenced floats            | -      | identifies figures & tables not referenced in the text
 
 ### Useful Resources
 
