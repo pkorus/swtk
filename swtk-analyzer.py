@@ -1,6 +1,6 @@
 __author__ = 'pkorus'
 
-import os, sys, argparse, re
+import os, sys, argparse, re, logging
 from swtk import paper
 from swtk import processors
 
@@ -11,7 +11,8 @@ parser.add_argument('-o', '--output', type=str, help='Output filename (HTML) / u
 parser.add_argument('-s', '--stylesheet', type=str, help='Custom CSS stylesheet')
 parser.add_argument('-j', '--javascript', type=str, help='Custom Java Script')
 parser.add_argument('-e', '--external', help='Use external resources in HTML output',action='store_true')
-parser.add_argument('-v', '--verbose', help='Print analysis summary to stdout',action='store_true')
+parser.add_argument('-v', '--verbose', help='Print more information & analysis summary to stdout',action='store_true')
+parser.add_argument('-V', '--Verbose', help='Print even more information to stdout',action='store_true')
 parser.add_argument('-f', '--floats', help='Include captions from floats (tables & figures)', action='store_true')
 parser.add_argument('-m', '--math', help='Enable experimental MathJax support (CDN only)', action='store_true')
 parser.add_argument('-M', '--Math', help='Enable MathJax support & include standalone equations', action='store_true')
@@ -58,6 +59,14 @@ if args.Math:
 
 # Enable float caption parsing
 if args.floats: paper.display_floats = True
+
+# Enabled logging
+if args.verbose:
+    logging.basicConfig(level=logging.INFO)
+
+if args.Verbose:
+    args.verbose = True
+    logging.basicConfig(level=logging.DEBUG)
 
 # Parse paper
 paper_class = supported_formats[os.path.splitext(args.filename)[-1].lower()]
