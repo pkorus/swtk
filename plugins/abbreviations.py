@@ -1,6 +1,6 @@
 import re
 from swtk.processors import *
-from collections import defaultdict
+from collections import defaultdict, deque
 
 
 class AbbreviationsProcessor(Plugin):
@@ -11,15 +11,29 @@ class AbbreviationsProcessor(Plugin):
     def __init__(self):
         self.found_words = defaultdict(lambda: 0)
         self.found_tokens = defaultdict(lambda: [])
+        self.cache = deque(maxlen=5)
+        self.defined = set()
+
+    def is_defined(self,word):
+        return '' if word in self.defined else ' (possibly undefined)'
 
     def process_token(self, token):
         if len(token.word) <= 5 and re.match('^[A-Z]{2,5}$', token.word):
             self.found_words[token.word] += 1
             self.found_tokens[token.word].append(token)
+            # check if the current word is defined in the cache
+            # TODO need more sophisticated mechanism
+            cache_extract = ''.join([w[0].upper() for w in self.cache][(5-len(token.word)):])
+            if token.word == cache_extract:
+                self.defined.add(token.word)
+        # Add to cache
+        if len(token.word) > 2:
+            self.cache.append(token.word.lower())
 
     def finalize(self, paper):
         # Select only certain sub-set of most frequent words, then sort by frequency
         sortedItems = sorted([(k,v) for (k,v) in self.found_words.iteritems() if v >= self.min_occurrences], key=lambda x: x[1], reverse=True)
+
         # Append numbered css styles to selected tokens
         css_mapping = {}
         current_counter = 1
@@ -30,13 +44,15 @@ class AbbreviationsProcessor(Plugin):
             current_counter += 1
             for token in tokens:
                 token.reports.append('_'+css_mapping[k].name)
+
         # Generate a detailed report and a summary
         if len(sortedItems) > 0:
-            detailedReport = [('{} : {}'.format(k,v), css_mapping[k].name) for (k,v) in sortedItems]
+            detailedReport = [('{} : {} {}'.format(k,v,self.is_defined(k)), css_mapping[k].name) for (k,v) in sortedItems]
             summary = 'Top {} : {}'.format(min(3, len(sortedItems)), ', '.join([k for (k,v) in sortedItems[:3]]))
         else:
             detailedReport = None
             summary = 'No abbreviations found'
+
         report = Report('Abbreviations', Plugin.toggle_button_generator(detailedReport), self.help, summary)
         report.css_classes = css_mapping.values()
         paper.reports.append(report)
