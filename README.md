@@ -176,7 +176,7 @@ Buried verbs                   | prototype | finds verbs that are too far from t
 Negative statements            | -      |
 Frequent bigrams               | stable | frequently used pairs of words
 Frequent trigrams              | stable | frequently used triples of words
-Frequent abbreviations         | stable | frequently used abbreviations
+Frequent acronyms              | stable | frequently used acronyms, checks if they are defined in the manuscript
 Overuse of rare words          | prototype |
 Verbs used as nouns            | -      |
 Sentence difficulty estimation | -      |
