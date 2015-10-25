@@ -197,7 +197,7 @@ class Float(TextBlock):
         index = body.find(r'\caption{')
         if index >= 0:
             body_fragment = body[index:]
-            self.__content = Paragraph(parse_tex_command(body_fragment), 'float', custom_replacements)
+            self.__content = Paragraph(parse_tex_command(body_fragment, False), 'float', custom_replacements)
 
     def get_sentences(self):
         return self.__content.get_sentences()
