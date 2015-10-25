@@ -9,7 +9,7 @@ Clarity-related text stats for scientific manuscripts (LaTeX).
 
 Scientific writing toolkit (SWTK) is a Python-based scientific manuscript analysis tool that facilitates clear writing. It computes numerous clarity-related statistics and detects common problems with English writing like overuse of weak verbs, or excessive use of adverbs, and passive voice, etc.
 
-SWTK generates a self-contained interactive HTML report with appropriate highlights in the text. An example report can be downloaded [here](https://raw.githubusercontent.com/pkorus/swtk/master/samples/introduction.html). This report uses the default template; you can customize the CSS template to your liking. 
+SWTK generates a self-contained interactive HTML report with appropriate highlights in the text. An example report can be downloaded [here](https://raw.githubusercontent.com/pkorus/swtk/master/samples/introduction.html) (save the file to your computer, and open it from there). This report uses the default template; you can customize the CSS template to your liking. 
 
 ![Example report](./images/report.png)
 
@@ -21,7 +21,8 @@ This project was inspired by two online apps: [Hemingway](http://www.hemingwayap
 
 **Learn More:**
 
-- The Elements of Style (book), [http://www.gutenberg.org/ebooks/37134](http://www.gutenberg.org/ebooks/37134)
+- W. Strunk, The Elements of Style (book), [http://www.gutenberg.org/ebooks/37134](http://www.gutenberg.org/ebooks/37134)
+- W. Zinsser, On Writing Well: The Classic Guide to Writing Nonfiction (book) 
 - Writing in the Sciences (MOOC), [https://www.coursera.org/course/sciwrite](https://www.coursera.org/course/sciwrite)
 - Academic English: Writing (MOOC), [https://www.coursera.org/specializations/academic-english](https://www.coursera.org/specializations/academic-english)
 
@@ -38,7 +39,7 @@ This project was inspired by two online apps: [Hemingway](http://www.hemingwayap
 
 ## License
 
-The toolkit is published under the [MIT License](http://www.opensource.org/licenses/mit-license.php). This means it is provided free of charge, but without warranties of any kind.
+The toolkit is published under the [MIT License](http://www.opensource.org/licenses/mit-license.php). This means it is provided for free, but without warranties of any kind.
 
 ## Installation
 
@@ -168,16 +169,15 @@ Analysis Tool                  | Status | Description
 -------------------------------|--------|-------------------------------------
 Basic document statistics      | stable | basic stats like character / word count, etc.
 Part of speech statistics      | stable, needs improvement | the number of verbs, nouns, modals, adverbs, etc.
-Extra long and short sentences | stable |
+Extra long and short sentences | stable | self-explanatory
 Weak verbs                     | stable | weak overused verbs, e.g., is, has, does
-Filter words & phrases         | stable | vague words and phrases used typically in spoken language
+Filter words & phrases         | stable | vague words and phrases used typically in spoken language, if possible, offers a suggested correction
 Passive voice                  | stable | self-explanatory
-Buried verbs                   | prototype | finds verbs that are too far from the subject
-Negative statements            | -      |
 Frequent bigrams               | stable | frequently used pairs of words
 Frequent trigrams              | stable | frequently used triples of words
 Frequent acronyms              | stable | frequently used acronyms, checks if they are defined in the manuscript
-Overuse of rare words          | prototype |
+Rare words                     | prototype | highlights rare words based on a provided dictionary (by default 5,000 words from Brown corpus)
+Buried verbs                   | prototype | finds verbs that are too far from the subject
 Verbs used as nouns            | -      |
 Sentence difficulty estimation | -      |
 Unreferenced floats            | -      | identifies figures & tables not referenced in the text

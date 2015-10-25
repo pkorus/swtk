@@ -4,7 +4,7 @@ from swtk.processors import *
 from collections import defaultdict
 
 class RareWordProcessor(Plugin):
-    help = 'Finds rare words that are frequently used in the manuscript. Rare words...'
+    help = 'Highlights rare words based on a provided dictionary (by default 5,000 words from Brown corpus).'
     run_priority = 100
 
     def __init__(self, dictionary_filename='./data/frequent_words.pickle'):
