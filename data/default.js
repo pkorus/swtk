@@ -40,6 +40,14 @@ $(document).ready(function() {
 		synchButtonStates($(this).parents('.reportItem'));
 	});
 
+	$('span[data-alt]').hover(function(e) {
+		var alt = $(this).attr("data-alt");
+		var maxY = $('.globalReports').height() + 25;
+		var maxX = $('.textWrapper').width();
+		var tWidth = $('#tooltip').html(alt).width();
+		$('#tooltip').css('top', Math.min(e.clientY + 10, maxY - 50)).css('left', Math.min(e.clientX, maxX - tWidth - 50)).show();
+	}, function () { $('#tooltip').hide(); });
+
 	$(".reportItem #detailsButton").click(function() {
 	  $(this).parent().parent().find('.reportDetails').toggle('blind');
 	});

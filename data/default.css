@@ -135,6 +135,24 @@ p.float {
 	text-align: center;
 }
 
+.about a {
+	text-decoration: none;
+	color: #555;
+}
+
+#tooltip {
+	background-color: #FDFDF8;
+	background: linear-gradient(to bottom, #FDFDF8 0%, #F4EEED 100%);
+	padding: 5px 10px 5px 10px;
+	border: 1px solid #777;
+	position: absolute;
+	box-shadow: 3px 3px 10px 1px #555;
+	border-radius: 5px;
+	top: 100px;
+	left: 100px;
+	display: none;
+}
+
 /* Individual reports */
 .reportItem { margin-top: 7px; margin-bottom: 7px; }
 .reportItem .reportLabel { float: left; }

@@ -118,6 +118,7 @@ class Token:
     def __init__(self, word):
         self.word = word
         self.reports = []
+        self.alternatives = []
         self.pos_tag = ''
 
     def __str__(self):
@@ -130,7 +131,8 @@ class Token:
             else:
                 return self.word
         else:
-            return '<span class="{}">{}</span>'.format(' '.join(self.reports), self.word)
+            alt_html = ' data-alt="{}"'.format(', '.join(self.alternatives)) if len(self.alternatives) > 0 else ''
+            return '<span class="{}"{}>{}</span>'.format(' '.join(self.reports), alt_html, self.word)
 
 
 class Sentence:
@@ -367,7 +369,7 @@ class Paper:
         # Begin main body
         output.append('</head><body>')
         # Main toolbar
-        output.append('<div class="header">Scientific Writing Toolkit')
+        output.append('<div class="header">Scientific Writing Toolkit <div id="tooltip"></div>')
         output.append('<div class="button" id="expand-button">details</div>')
         output.append('<div class="button" id="clear-highlights">highlights</div>')
         output.append('<div class="label">Toggle: </div>')
@@ -407,7 +409,7 @@ class Paper:
                 if hasattr(r, 'help'): output.append('<div class="reportHelp">{}</div>'.format(r.help))
                 if r.details != None: output.append('<div class="reportDetails">{}</div>'.format(r.details_html()))
                 output.append('</div>')
-            output.append('<div class="about">report generated with <em>scientific writing toolkit</em> &copy; 2015 Paweł Korus</div>')
+            output.append('<div class="about">report generated with <a href="http://github.com/pkorus/swtk"><em>scientific writing toolkit</em></a>  &copy; 2015 Paweł Korus</div>')
             output.append('</div>')
         # Close tags
         output.append('</body></html>')

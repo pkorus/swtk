@@ -8,7 +8,7 @@ def find_sequence(long_sequence, sequence_pattern):
     return [(i, i+len(sequence_pattern)) for i in range(len(long_sequence)) if long_sequence[i:i+len(sequence_pattern)] == sequence_pattern]
 
 class FilterWordsProcessor(Plugin):
-    help = 'Finds vague and colloquial words and phrases typical for spoken language. If possible, offers an explanation or a substitute.'
+    help = 'Finds vague and colloquial words and phrases typical for spoken language; if possible, offers an explanation or a substitute. Hover over an element to see the suggestion.'
     run_priority = 150
     dictionary_filename = './data/filter_words.json'
 
@@ -39,6 +39,7 @@ class FilterWordsProcessor(Plugin):
                 for index in indices:
                     for i in range(*index):
                         sentence.tokens[i].reports.append('_filterPhrase')
+                        sentence.tokens[i].alternatives.append(self.dictionary['phrases'][pattern])
 
     def finalize(self, paper):
         # Generate a short summary
